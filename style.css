@@ -8,28 +8,27 @@
 body {
     font-family: 'Epilogue', sans-serif;
 }
-/* 
-.banner {
-    background-color: #fffde7;
-} */
 
 .img-logo {
     width: 150px;
 }
 
 .container {
-    max-width: 900px;
+    max-width: 1000px;
     /* background-color: #fffde7; */
 }
 
-.navbar, footer {
+.navbar, footer, .dropdown-menu {
     /* background-color: #BCCCAA ; */
-    background-color: #d4b5b0;
+    /* background-color: #d4b5b0; */
     background-color: #dfd3c3;
 }
 
+/* .title, .subtitle {
+    font-family: 'Lobster', cursive;   
+} */
+
 .subtitle {
-    font-family: 'Lobster', cursive;
     font-size: 20px;
 }
 
@@ -45,12 +44,8 @@ body {
     max-width: 289px;
 }
 
-/* .about {
-    background-color: #ffecb3  ;
-} */
-
-.flag {
-    width: 50px;
+.img-albertEden {
+    max-width: 180px;
 }
 
 
