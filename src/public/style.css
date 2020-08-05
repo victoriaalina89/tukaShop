@@ -1,0 +1,58 @@
+* {
+    margin: 0;
+    box-sizing: border-box;
+    padding: 0;
+    line-height: 1.5em;
+}
+
+body {
+    font-family: 'Epilogue', sans-serif;
+}
+/* 
+.banner {
+    background-color: #fffde7;
+} */
+
+.img-logo {
+    width: 150px;
+}
+
+.container {
+    max-width: 900px;
+    /* background-color: #fffde7; */
+}
+
+.navbar, footer {
+    /* background-color: #BCCCAA ; */
+    background-color: #d4b5b0;
+    background-color: #dfd3c3;
+}
+
+.subtitle {
+    font-family: 'Lobster', cursive;
+    font-size: 20px;
+}
+
+.fa-instagram, .fa-facebook-f {
+    font-size: 25px;
+}
+
+.fa-shopping-cart {
+    font-size: 20px;
+}
+
+.card {
+    max-width: 289px;
+}
+
+/* .about {
+    background-color: #ffecb3  ;
+} */
+
+.flag {
+    width: 50px;
+}
+
+
+
+
