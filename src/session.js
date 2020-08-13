@@ -3,6 +3,6 @@ module.exports.isAdmin  = function(request, response, next) {
         return next();
     } else {
 
-        response.redirect('/admin/invalid-login');
+        response.redirect('/admin/login');
     }
 }

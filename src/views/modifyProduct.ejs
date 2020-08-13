@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+
+  <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -23,18 +24,21 @@
     </div>
     <hr>
     <div class="container d-flex justify-content-center">
-        <div class="container-form border">
-        
+        <div class="container-form border m-5">
+        <!-- <div class="border m-5"> -->
             <div class="card-header bg-dark text-white text-center">
-                <h3>Sign in</h3>
+                <h3>Edit <%= productName %> Product</h3>
             </div>
             <div class="card-body">
-                <form action="/admin/login" method="POST">
-                    <input type="text" name="username" class="form-control" placeholder="Username" required><br />
-                    <input type="password" name="password" class="form-control" placeholder="Password" required><br />
-                    <input type="submit" class="btn btn-primary btn-block">
-                </form>
+                <form action="/admin/modify-product/<%= productId %>" method="POST" enctype="multipart/form-data">
+                    <textarea type="text" name="name" class="form-control" placeholder="Name" rows="1" cols="1" required><%= productName %></textarea><br />
+                    <textarea type="text" name="description" class="form-control" placeholder="Description" rows="9" cols="25" required><%= productDescription %></textarea><br />
+                    <img class="img" src="<%= imagePath %>">
+                    <input type="file" name="image" value="<%= imagePath %>" class="pb-4">
+                    <input type="submit" class="btn btn-primary btn-block mt-4">
+                </form>              
             </div>
+        <!-- </div> -->
         </div>
     </div>
 </body>

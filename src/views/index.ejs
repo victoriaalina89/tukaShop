@@ -64,17 +64,31 @@
         <span class="sr-only">Next</span>
       </a>
     </div>
+
     <hr>
+
     <div class="about text-center mb-4">
     <img class="flag" src="/images/argentina.png" alt="Argentinan flag">  
       <h3 class="p-2">Catering service, where we offer typical Argentine<br />
          foods and desserts</h3>
     </div>
+
     <hr class="mb-5">
     
     <div class="container p-0 mb-4">
       <a name="products" id="products"></a>
       <div class="products-top row ml-0 mr-0 mb-1 d-flex justify-content-center">
+        <% products.forEach(function (product) { %>
+          <% if (!product.deleted) { %>
+            <div class="card col-md-4 p-0 mr-3 mb-3">
+              <img class="card-img-top" src="/images/alf.jpg" alt="Card image cap">
+              <div class="card-body">
+                <h5 class="card-title">Alfajores</h5>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+              </div>
+            </div>
+          <% } %>
+        <% }); %>
         <div class="card col-md-4 p-0 mr-3 mb-3">
           <img class="card-img-top" src="/images/alf.jpg" alt="Card image cap">
           <div class="card-body">
@@ -89,7 +103,7 @@
             <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
           </div>
         </div>
-        <div class="card col-md-4 mb-3 p-0 mr-3 mr-lg-0">
+        <div class="card col-md-4 mb-3 p-0 mr-3">
           <img class="card-img-top" src="/images/lemon.jpg" alt="Card image cap">
           <div class="card-body">
             <h5 class="card-title">Cakes</h5>
@@ -111,7 +125,7 @@
             <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
           </div>
         </div>
-        <div class="card col-md-4 mb-3 p-0 mr-3 mr-lg-0">
+        <div class="card col-md-4 mb-3 p-0 mr-3">
           <img class="card-img-top" src="/images/pastaf.jpg" alt="Card image cap">
           <div class="card-body">
             <h5 class="card-title">Sweet Tarts</h5>

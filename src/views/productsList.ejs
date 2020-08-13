@@ -22,7 +22,42 @@
         <p class="subtitle pb-4 mb-0">Argentine foods and desserts</p>
     </div>
     <hr>
-    <div>
-        <a href="/admin/add-product" class="btn btn-warning">Add New Product</a>
+    <div class="container info-container pt-5">
+        <h1 class="mb-5">Hello admin </h1>
+        <table class="table table-striped">
+          <tbody>
+            <% products.forEach(function(product){ %>
+              <% if (!product.deleted) { %>
+                <tr>
+                  <td class="h5"><%= product.getName() %></td>
+                  <td class="text-right"><a href="/admin/modify-product/<%= product.id %>" class="btn btn-warning btn-lg active"
+                     role="button">Edit</a></td>
+                  <td class="text-right"><a href="#" class="btn btn-danger btn-lg active"
+                     data-toggle="modal" data-target="#exampleModal<%= product.id %>" role="button">Delete</a></td>    
+                  <div class="modal fade" id="exampleModal<%= product.id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLabel">DELETE CONFIRMATION</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <p>Are you sure you want to delete <%= product.getName() %> ?</p>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                          <a href="/admin/delete-product/<%= product.id %>" class="btn btn-danger" role="button">Yes, delete</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </tr>
+              <% } %>
+            <% }); %>
+          </tbody>
+        </table>
+        <a href="/admin/add-product" class="btn btn-dark btn-lg active mt-4" role="button">Add new product</a><br />
     </div>
 </body>

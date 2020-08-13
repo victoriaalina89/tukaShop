@@ -5,7 +5,8 @@ class Product {
         this.id = id,
         this.deleted = false,
         this.name = name,
-        this.description = description
+        this.description = description,
+        this.image = image
     }
 
     markAsDeleted() {
@@ -22,6 +23,10 @@ class Product {
 
     getDescription() {
         return this.description;
+    }
+
+    getImage() {
+        return this.image;
     }
 
     // getImagePath() {
