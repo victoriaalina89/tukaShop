@@ -1,7 +1,7 @@
 const { request } = require("express");
 
 class Product {
-    constructor(id, name, description) {
+    constructor(id, name, description, image) {
         this.id = id,
         this.deleted = false,
         this.name = name,
@@ -28,11 +28,6 @@ class Product {
     getImage() {
         return this.image;
     }
-
-    // getImagePath() {
-    //     const imagePath = '/image/' + this.image;
-    //     return imagePath;
-    // }
 
     getNameForImage() {
         const lowerCaseName = this.name.toLowerCase();

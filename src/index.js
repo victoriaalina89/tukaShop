@@ -29,7 +29,7 @@ const upload = multer({
         checkFileType(file, callback);
     }
 })
-// .single('image');
+
 
 function checkFileType(file, callback) {
     const filetypes = /jpeg|jpg|png|gif/;
@@ -87,7 +87,6 @@ app.get( '/', (request, response) => {
                 return newProduct;
             })
             
-    
             response.render('index.ejs', { products: productsIntoClasses });
              
         });
@@ -256,8 +255,8 @@ app.post('/admin/modify-product/:id', [urlencoudedParser, adminSession.isAdmin, 
         if(request.file === undefined && newProduct.getName() !== products[0].name) {
             
             console.log('hola');
-            var index = newProduct.getImage().lastIndexOf(".");
-            var result = newProduct.getImage().substr(index+1);
+            const index = newProduct.getImage().lastIndexOf(".");
+            const result = newProduct.getImage().substr(index+1);
 
             fs.rename('./src/public' + newProduct.getImage(), './src/public/images/' + newProduct.getNameForImage() + '.' + result, function(error) {
                 if ( error ) console.log('ERROR: ' + error);
@@ -270,32 +269,49 @@ app.post('/admin/modify-product/:id', [urlencoudedParser, adminSession.isAdmin, 
                 if(error) throw error;
                 console.log("1 record uploded");
             });
+
+            return
         }
 
+        if(request.file === undefined && newProduct.getDescription() !== products[0].description) {
 
-        if(request.file !== undefined){
-
-            console.log('chau');
-            var index = request.file.filename.lastIndexOf(".");
-            var result = request.file.filename.substr(index+1);
-
-            fs.unlink('./src/public' + newProduct.getImage(), (err) => {
-        
-                if (err) {
-                console.error(err)
-                return
-                }
-            
-            })
-
-            const sql = 'UPDATE products SET name ="' + newProduct.getName() + '", description ="' + newProduct.getDescription() +
-            '", image ="/images/' + newProduct.getNameForImage() + '.' + result + '" WHERE id ="' + request.params.id + '"';
+            const sql = 'UPDATE products SET description ="' + newProduct.getDescription() + '" WHERE id ="' + request.params.id + '"';
 
             connection.query(sql, function(error, result) {
                 if(error) throw error;
                 console.log("1 record uploded");
             });
+
+            return
         }
+
+
+        console.log('chau');
+        const index = request.file.filename.lastIndexOf(".");
+        const result = request.file.filename.substr(index+1);
+
+        const imageExt = newProduct.getImage().lastIndexOf(".");
+        const extention = newProduct.getImage().substr(imageExt+1);
+
+        
+        if(extention !== result) {
+            fs.unlink('./src/public' + newProduct.getImage(), (err) => {
+    
+                if (err) {
+                    console.error(err)
+                    return
+                }
+        
+            })
+        }
+
+        const sql = 'UPDATE products SET name ="' + newProduct.getName() + '", description ="' + newProduct.getDescription() +
+        '", image ="/images/' + newProduct.getNameForImage() + '.' + result + '" WHERE id ="' + request.params.id + '"';
+
+        connection.query(sql, function(error, result) {
+            if(error) throw error;
+            console.log("1 record uploded");
+        });
        
     });
 

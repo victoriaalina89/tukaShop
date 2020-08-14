@@ -12,13 +12,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@300&display=swap" rel="stylesheet">
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"> -->
-
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script> -->
-
 </head>
 <body>
   <div class="banner text-center">
@@ -37,11 +33,7 @@
           </li>
       </ul>
     </div>
-    <!-- <ul class="navbar-nav mx-auto">
-      <li class="nav-item">
-        <i class="fas fa-shopping-cart pr-2"></i>
-      </li>
-    </ul> -->
+ 
   </nav>
 
   <div class="container p-0">
@@ -80,60 +72,19 @@
       <div class="products-top row ml-0 mr-0 mb-1 d-flex justify-content-center">
         <% products.forEach(function (product) { %>
           <% if (!product.deleted) { %>
+
             <div class="card col-md-4 p-0 mr-3 mb-3">
-              <img class="card-img-top" src="/images/alf.jpg" alt="Card image cap">
+              <img class="img card-img-top" src="<%= product.getImage() %>" alt="Card image cap">
               <div class="card-body">
-                <h5 class="card-title">Alfajores</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <h5 class="card-title"><%= product.getName() %></h5>
+                <p class="card-text"><%= product.getDescription() %></p>
               </div>
             </div>
+            
           <% } %>
         <% }); %>
-        <div class="card col-md-4 p-0 mr-3 mb-3">
-          <img class="card-img-top" src="/images/alf.jpg" alt="Card image cap">
-          <div class="card-body">
-            <h5 class="card-title">Alfajores</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          </div>
-        </div>
-        <div class="card col-md-4 p-0 mr-3 mb-3">
-          <img class="card-img-top" src="/images/empa.jpg" alt="Card image cap">
-          <div class="card-body">
-            <h5 class="card-title">Empanadas</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          </div>
-        </div>
-        <div class="card col-md-4 mb-3 p-0 mr-3">
-          <img class="card-img-top" src="/images/lemon.jpg" alt="Card image cap">
-          <div class="card-body">
-            <h5 class="card-title">Cakes</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          </div>
-        </div>
-    
-        <div class="card col-md-4 p-0 mr-3 mb-3">
-          <img class="card-img-top" src="/images/tarts.jpg" alt="Card image cap">
-          <div class="card-body">
-            <h5 class="card-title">Savoury tarts</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          </div>
-        </div>
-        <div class="card col-md-4 p-0 mr-3 mb-3">
-          <img class="card-img-top" src="/images/sand (2) (1).jpg" alt="Card image cap">
-          <div class="card-body">
-            <h5 class="card-title">Sandwiches</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          </div>
-        </div>
-        <div class="card col-md-4 mb-3 p-0 mr-3">
-          <img class="card-img-top" src="/images/pastaf.jpg" alt="Card image cap">
-          <div class="card-body">
-            <h5 class="card-title">Sweet Tarts</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          </div>
-        </div>
       </div>
-    </div>
+    </div> 
 
 
   </div>
