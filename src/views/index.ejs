@@ -13,39 +13,51 @@
     <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@300&display=swap" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script type="text/javascript"  src="/tuka.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </head>
 <body>
-  <div class="banner text-center">
-    <img class="img-logo border rounded-circle border-dark mt-4" src="/images/logo.png" alt="Tuka Shop">
-    <p class="subtitle pb-4 mb-0">Argentine foods and desserts</p>
-  </div>
- 
-  <nav class="navbar shadow-sm navbar-expand p-1">
-    <div class="navbar w-100">
-      <ul class="navbar-nav mx-auto">
-          <li class="nav-item">
-            <a class="nav-link text-dark text-uppercase" href="#products">Products</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-dark text-uppercase" href="#contact">Contact</a>
-          </li>
-      </ul>
-    </div>
- 
-  </nav>
+
 
   <div class="container p-0">
+
+    <div class="banner text-center">
+      <img class="img-logo border rounded-circle border-dark mt-4" src="/images/logo.png" alt="Tuka Shop">
+      <p class="subtitle pb-4 mb-0">Argentine foods and desserts</p>
+    </div>
+   
+    <nav class="navbar shadow-sm navbar-expand p-1">
+      <div class="navbar w-100">
+        <ul class="navbar-nav mx-auto">
+            <li class="nav-item">
+              <a class="nav-link text-dark text-uppercase font-weight-bold" href="#products">Products</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-dark text-uppercase font-weight-bold" href="#contact">Contact</a>
+            </li>
+        </ul>
+      </div>
+      <!-- <ul class="navbar-nav mx-auto">
+        <li class="nav-item">
+          <i class="fas fa-shopping-cart pr-2"></i>
+        </li>
+      </ul> -->
+    </nav>
    
     <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
       <div class="carousel-inner pt-4 pb-4">
-        <div class="carousel-item active">
-          <img class="d-block w-100 rounded shadow-sm" src="/images/fernet (2).jpg" alt="First slide">
-        </div>
-        <div class="carousel-item">
-          <img class="d-block w-100 rounded shadow-sm" src="/images/toficake (2).jpg" alt="Third slide">
-        </div>
+        <% carouselImages.forEach(function (carouselImage, imageIndex) { %>
+          <% if(!carouselImage.deleted) { %>
+            <% if(imageIndex === 0) { %>
+              <div class="carousel-item active">      
+            <% } else { %>
+              <div class="carousel-item">
+            <% } %> 
+            <img class="d-block w-100 rounded shadow-sm" src=<%= carouselImage.getImage() %>>
+          </div>     
+          <% } %>
+        <% }); %> 
       </div>
       <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -69,7 +81,7 @@
     
     <div class="container p-0 mb-4">
       <a name="products" id="products"></a>
-      <div class="products-top row ml-0 mr-0 mb-1 d-flex justify-content-center">
+      <div class="products-top row ml-0 mr-0 mb-1 ">
         <% products.forEach(function (product) { %>
           <% if (!product.deleted) { %>
 
@@ -86,42 +98,42 @@
       </div>
     </div> 
 
-
-  </div>
-  <footer class="page-footer shadow font-small teal pt-4">
-    <div class="container text-center text-md-left p-4">
-      <div class="row">
-        <div class="col-md-4 mt-md-0 mt-3 text-center">
-          <h5 class="text-uppercase font-weight-bold mb-4">Tuka Shop</h5>
-          <p>Catering service, where we offer typical Argentine
-            foods and desserts</p>
-        </div>
-        <hr class="clearfix w-100 d-md-none pb-3">
-        <div class="col-md-4 mb-md-0 mb-3 text-center">
-          <h5 class="font-weight-bold text-uppercase mb-4">Follow Us</h5>
-          <a type="button" class="btn-floating btn-fb text-dark" href="https://www.facebook.com/tukashop">
-            <i class="fab fa-facebook-f mr-2"></i>
-          </a>
-          <a type="button" class="btn-floating btn-tw text-dark" href="https://www.instagram.com/tukacina/">
-            <i class="fab fa-instagram"></i>
-          </a>
-        </div>
-        
-        <hr class="clearfix w-100 d-md-none pb-3">
-        <div class="col-md-4 mt-md-0 mt-3 text-center">
-          <a name="contact" id="contact"><h5 class="font-weight-bold text-uppercase mb-4">Contact</h5></a>
-          <ul class="list-unstyled">
-            <li>
-              <p>
-                <i class="fas fa-envelope mr-1"></i> tukacina@gmail.com</p>
-            </li>
-            <li>
-              <p>
-                <i class="fas fa-phone mr-1"></i> +64 210 849 1931</p>
-            </li>
-          </ul>
+    <footer class="page-footer shadow font-small teal pt-4">
+      <div class="container text-center text-md-left p-4">
+        <div class="row">
+          <div class="col-md-4 mt-md-0 mt-3 text-center">
+            <h5 class="text-uppercase font-weight-bold mb-4">Tuka Shop</h5>
+            <p>Catering service, where we offer typical Argentine
+              foods and desserts</p>
+          </div>
+          <hr class="clearfix w-100 d-md-none pb-3">
+          <div class="col-md-4 mb-md-0 mb-3 text-center">
+            <h5 class="font-weight-bold text-uppercase mb-4">Follow Us</h5>
+            <a type="button" class="btn-floating btn-fb text-dark" href="https://www.facebook.com/tukashop">
+              <i class="fab fa-facebook-f mr-2"></i>
+            </a>
+            <a type="button" class="btn-floating btn-tw text-dark" href="https://www.instagram.com/tukacina/">
+              <i class="fab fa-instagram"></i>
+            </a>
+          </div>
+          
+          <hr class="clearfix w-100 d-md-none pb-3">
+          <div class="col-md-4 mt-md-0 mt-3 text-center">
+            <a name="contact" id="contact"><h5 class="font-weight-bold text-uppercase mb-4">Contact</h5></a>
+            <ul class="list-unstyled">
+              <li>
+                <p>
+                  <i class="fas fa-envelope mr-1"></i> tukacina@gmail.com</p>
+              </li>
+              <li>
+                <p>
+                  <i class="fas fa-phone mr-1"></i> +64 210 849 1931</p>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
-    </div>
-</footer>
+    </footer>
+  </div>
+ 
 </body>

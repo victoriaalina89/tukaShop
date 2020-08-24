@@ -1,4 +1,4 @@
-const { request } = require("express");
+// const { request } = require("express");
 
 class Product {
     constructor(id, name, description, image) {

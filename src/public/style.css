@@ -28,8 +28,8 @@ body {
 
 .navbar, footer {
     /* background-color: #BCCCAA ; */
-    background-color: #d4b5b0;
-    background-color: #dfd3c3;
+    background-color: #CDA47D;
+    /* background-color: #dfd3c3; */
 }
 
 .subtitle {
@@ -46,7 +46,7 @@ body {
 }
 
 .card {
-    max-width: 289px;
+    max-width: 284px;
    
 }
 
