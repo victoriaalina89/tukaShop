@@ -19,7 +19,7 @@ body {
 
 .container {
     max-width: 900px;
-    /* background-color: #fffde7; */
+  
 }
 
 .container-form {
@@ -46,8 +46,9 @@ body {
 }
 
 .card {
-    max-width: 284px;
-   
+    /* max-width: 284px;
+    min-width: 254px; */
+   min-height: 500px;
 }
 
 /* .about {

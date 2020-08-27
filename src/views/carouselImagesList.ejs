@@ -28,9 +28,8 @@
         <table class="table table-striped">
           <tbody>
             <% carouselImages.forEach(function(carouselImage){ %>
-              <% if (!carouselImage.deleted) { %>
+             
                 <tr>
-                  <!-- <td class="h5"><%= carouselImage.getName() %></td> -->
                   <td><img class="img" src=<%= carouselImage.getImage() %>></td>
                   <% console.log(carouselImage.getImage()); %>
                   <td class="text-right"><a href="#" class="btn btn-danger btn-lg active"
@@ -55,10 +54,11 @@
                     </div>
                   </div>
                 </tr>
-              <% } %>
+             
             <% }); %>
           </tbody>
         </table>
         <a href="/admin/add-image-carousel" class="btn btn-dark btn-lg active mt-4" role="button">Add carousel image</a><br />
+        <a href="/admin/products-list" class="btn btn-dark btn-lg active mt-4" role="button">Products</a><br />
     </div>
 </body>

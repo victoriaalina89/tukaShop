@@ -5,15 +5,16 @@ const session = require('express-session');
 const multer = require('multer');
 const path = require('path');
 const bodyParser = require('body-parser');
-var fs = require('fs');
+const fs = require('fs');
+
+const gm = require('gm');
 
 const auth = require('./auth');
 const adminSession = require('./session');
 
 const Product = require('../Product');
 const CarouselImage = require('../CarouselImage');
-// const express = require('express');
-// var mysql = require('mysql2');
+var mysql = require('mysql2/promise');
 
 const urlencoudedParser = bodyParser.urlencoded({extended: false});
 
@@ -82,8 +83,6 @@ app.use(session({
 //routes
 app.get( '/', async (request, response) => {
 
-    const mysql = require('mysql2/promise');
-
     const connection = await mysql.createConnection({
         host: "localhost",
         user: "usuario",
@@ -93,7 +92,7 @@ app.get( '/', async (request, response) => {
 
     const [rows, fields] = await connection.query("SELECT * FROM products");
 
-    const productsIntoClasses = rows.map(product => {
+    const products= rows.map(product => {
 
         const newProduct = new Product(product.id, product.name, product.description, product.image);
 
@@ -104,9 +103,13 @@ app.get( '/', async (request, response) => {
         return newProduct;
     })
 
+    const productsNotDeleted = products.filter(product => {
+        return product.deleted === false;
+    })
+
     const [rowsCarousel, fieldsCarousel] = await connection.query("SELECT * FROM carousel");
 
-    const carouselImagesIntoClasses = rowsCarousel.map(carouselImage => {
+    const carouselImages = rowsCarousel.map(carouselImage => {
 
         const newCarouselImage = new CarouselImage(carouselImage.id, carouselImage.name, carouselImage.image);
 
@@ -116,28 +119,35 @@ app.get( '/', async (request, response) => {
 
         return newCarouselImage;
     })
+
+    const carouselImagesNotDeleted = carouselImages.filter(carouselImage => {
+        return carouselImage.deleted === false;
+    })
     
-    response.render('index.ejs', {products: productsIntoClasses, carouselImages: carouselImagesIntoClasses});
+
+    
+    response.render('index.ejs', {products: productsNotDeleted, carouselImages: carouselImagesNotDeleted});
     
 });
 
 
 app.get('/admin/login', (request, response) => {
+
     response.render('login.ejs');
 })
 
 app.post('/admin/login', [urlencoudedParser, auth.isAuthorized] , (request,response) => {
+
     response.redirect('/admin/products-list');
     
 })
 
 app.get('/admin/invalid-login', (request, response) => {
+
     response.render('invalidUser.ejs');
 })
 
 app.get('/admin/products-list', [urlencoudedParser, adminSession.isAdmin],  async (request, response) => {
-
-    const mysql = require('mysql2/promise');
 
     const connection = await mysql.createConnection({
         host: "localhost",
@@ -148,7 +158,7 @@ app.get('/admin/products-list', [urlencoudedParser, adminSession.isAdmin],  asyn
 
     const [rows, fields] = await connection.query("SELECT * FROM products");
 
-    const productsIntoClasses = rows.map(product => {
+    const products = rows.map(product => {
         const newProduct = new Product(product.id, product.name, product.description, product.image);
 
         if(product.deleted) {
@@ -158,7 +168,11 @@ app.get('/admin/products-list', [urlencoudedParser, adminSession.isAdmin],  asyn
         return newProduct
     })
 
-    response.render('productsList.ejs', {products: productsIntoClasses});
+    const productsNotDeleted = products.filter(product => {
+        return product.deleted === false;
+    })
+
+    response.render('productsList.ejs', {products: productsNotDeleted});
     
 });
 
@@ -166,9 +180,7 @@ app.get('/admin/add-product', [urlencoudedParser, adminSession.isAdmin], (reques
    response.render('addProduct.ejs') 
 })
 
-app.post('/admin/add-product', [urlencoudedParser, adminSession.isAdmin, upload.single('image')] , async (request, response) => {
-
-    const mysql = require('mysql2/promise');
+app.post('/admin/add-product', [urlencoudedParser, upload.single('image')] , async (request, response) => {
 
     const connection = await mysql.createConnection({
         host: "localhost",
@@ -179,8 +191,16 @@ app.post('/admin/add-product', [urlencoudedParser, adminSession.isAdmin, upload.
 
     const images = "/images/" + request.file.filename;
 
+    gm('./src/public' + images)
+    // .resize(100, 100)
+    .crop(300, 400)
+    .write(response, function (err) {
+        if (!err) console.log('done');
+    });
+
     await connection.query('INSERT INTO products (deleted, name, description, image) VALUES(false, ?, ?, ? )',
      [request.body.name, request.body.description, images]);
+
 
     response.redirect('/admin/products-list');
 
@@ -189,8 +209,6 @@ app.post('/admin/add-product', [urlencoudedParser, adminSession.isAdmin, upload.
 app.get('/admin/delete-product/:id', [urlencoudedParser, adminSession.isAdmin], async (request, response) => {
 
     request.params.id;
-
-    const mysql = require('mysql2/promise');
 
     const connection = await mysql.createConnection({
         host: "localhost",
@@ -209,9 +227,6 @@ app.get('/admin/delete-product/:id', [urlencoudedParser, adminSession.isAdmin], 
 app.get('/admin/modify-product/:id', [urlencoudedParser, adminSession.isAdmin], async (request, response) => {
     
     request.params.id;
-    
-
-    var mysql = require('mysql2/promise');
 
     var connection = await mysql.createConnection({
         host: "localhost",
@@ -230,11 +245,9 @@ app.get('/admin/modify-product/:id', [urlencoudedParser, adminSession.isAdmin], 
 
 });
 
-app.post('/admin/modify-product/:id', [urlencoudedParser, adminSession.isAdmin, upload.single('image')], async (request,response) => {
+app.post('/admin/modify-product/:id', [urlencoudedParser, upload.single('image')], async (request,response) => {
 
     request.params.id; 
-
-    const mysql = require('mysql2/promise');
 
     const connection = await mysql.createConnection({
         host: "localhost",
@@ -285,7 +298,6 @@ app.post('/admin/modify-product/:id', [urlencoudedParser, adminSession.isAdmin, 
         return
     }
 
-
     const index = request.file.filename.lastIndexOf(".");
     const result = request.file.filename.substr(index+1);
 
@@ -318,8 +330,6 @@ app.post('/admin/modify-product/:id', [urlencoudedParser, adminSession.isAdmin, 
 
 app.get('/admin/carousel-images-list', adminSession.isAdmin, async (request,response) => {
 
-    const mysql = require('mysql2/promise');
-
     const connection = await mysql.createConnection({
         host: "localhost",
         user: "usuario",
@@ -329,7 +339,7 @@ app.get('/admin/carousel-images-list', adminSession.isAdmin, async (request,resp
 
     const [rows, fields] = await connection.query("SELECT * FROM carousel");
 
-    const carouselImagesIntoClasses = rows.map(carouselImage => {
+    const carouselImages = rows.map(carouselImage => {
         const newCarouselImage = new CarouselImage(carouselImage.id, carouselImage.name, carouselImage.image);
 
         if(carouselImage.deleted) {
@@ -339,20 +349,12 @@ app.get('/admin/carousel-images-list', adminSession.isAdmin, async (request,resp
         return newCarouselImage;
     })
 
-    // connection.query("SELECT * FROM carousel", function (error, carouselImages, fields) {
-    //     if (error) throw error;
-    //     const carouselImagesIntoClasses = carouselImages.map(function(carouselImage) {
-    //         const newCarouselImage =  new CarouselImage(carouselImage.id, carouselImage.name, carouselImage.image);
+    const carouselImagesNotDeleted = carouselImages.filter(carouselImage => {
+        return carouselImage.deleted === false;
+    })
 
-    //         if(carouselImage.deleted) {
-    //             newCarouselImage.markAsDeleted();
-    //         }
-
-    //         return newCarouselImage;
-    //     })
-
-    response.render('carouselImagesList.ejs', {carouselImages: carouselImagesIntoClasses});
-    // });
+    response.render('carouselImagesList.ejs', {carouselImages: carouselImagesNotDeleted});
+  
 })
 
 app.get('/admin/add-image-carousel', adminSession.isAdmin, (request, response) => {
@@ -361,8 +363,6 @@ app.get('/admin/add-image-carousel', adminSession.isAdmin, (request, response) =
 })
 
 app.post('/admin/add-image-carousel', [urlencoudedParser, uploadCarouselImage.single('image')], async (request, response) => {
-
-    const mysql = require('mysql2/promise');
 
     const connection = await mysql.createConnection({
         host: "localhost",
@@ -382,7 +382,6 @@ app.get('/admin/delete-carousel-image/:id', [adminSession.isAdmin, urlencoudedPa
 
     request.params.id;
 
-    const mysql = require('mysql2/promise');
     const connection = await mysql.createConnection({
         host: "localhost",
         user: "usuario",

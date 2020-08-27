@@ -28,7 +28,7 @@
         <table class="table table-striped">
           <tbody>
             <% products.forEach(function(product){ %>
-              <% if (!product.deleted) { %>
+              
                 <tr>
                   <td class="h5"><%= product.getName() %></td>
                   <td class="text-right"><a href="/admin/modify-product/<%= product.id %>" class="btn btn-warning btn-lg active"
@@ -55,7 +55,7 @@
                     </div>
                   </div>
                 </tr>
-              <% } %>
+              
             <% }); %>
           </tbody>
         </table>
